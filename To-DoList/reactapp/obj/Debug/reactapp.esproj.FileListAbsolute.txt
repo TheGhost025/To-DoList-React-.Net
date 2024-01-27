@@ -1,0 +1,2 @@
+D:\ass\To-DoList-React-.Net\To-DoList\reactapp\obj\Debug\reactapp.esproj.SuggestedBindingRedirects.cache
+D:\ass\To-DoList-React-.Net\To-DoList\reactapp\obj\Debug\reactapp.esproj.CoreCompileInputs.cache

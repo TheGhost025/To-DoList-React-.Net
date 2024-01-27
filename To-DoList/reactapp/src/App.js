@@ -1,59 +1,50 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import ToDoList from './Component/ToDoList';
+import SignIn from './Component/SignIn';
+import SignUp from './Component/SignUp';
 
 export default class App extends Component {
-    static displayName = App.name;
-
     constructor(props) {
+
         super(props);
-        this.state = { forecasts: [], loading: true };
+        this.state = {
+            isLoggedIn: false,
+        };
     }
 
-    componentDidMount() {
-        this.populateWeatherData();
-    }
+        handleLogin = () => {
+            // Your authentication logic goes here
+            this.setState({ isLoggedIn: true });
+        };
 
-    static renderForecastsTable(forecasts) {
-        return (
-            <table className='table table-striped' aria-labelledby="tabelLabel">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Temp. (C)</th>
-                        <th>Temp. (F)</th>
-                        <th>Summary</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {forecasts.map(forecast =>
-                        <tr key={forecast.date}>
-                            <td>{forecast.date}</td>
-                            <td>{forecast.temperatureC}</td>
-                            <td>{forecast.temperatureF}</td>
-                            <td>{forecast.summary}</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
-    }
+        handleLogout = () => {
+            // Your logout logic goes here
+            this.setState({ isLoggedIn: false });
+        };
 
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-            : App.renderForecastsTable(this.state.forecasts);
+        render() {
+            const { isLoggedIn } = this.state;
 
-        return (
-            <div>
-                <h1 id="tabelLabel" >Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server.</p>
-                {contents}
-            </div>
-        );
-    }
-
-    async populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        this.setState({ forecasts: data, loading: false });
+            return (
+                <Router>
+                    <Routes>
+                        <Route
+                            path="/login"
+                            element={isLoggedIn ? <Navigate to="/todos" /> : <SignIn onLogin={this.handleLogin} />}
+                        />
+                        <Route
+                            path="/register"
+                            element={isLoggedIn ? <Navigate to="/todos" /> : <SignUp />}
+                        />
+                        <Route
+                            path="/todos"
+                            element={isLoggedIn ? <ToDoList onLogout={this.handleLogout} /> : <Navigate to="/login" />}
+                        />
+                        {/* You can use Navigate to handle the default redirection */}
+                        <Route index element={<Navigate to="/todos" />} />
+                    </Routes>
+                </Router>
+            );
     }
 }
