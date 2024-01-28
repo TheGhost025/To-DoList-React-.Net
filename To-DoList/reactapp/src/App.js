@@ -34,7 +34,7 @@ export default class App extends Component {
                             element={isLoggedIn ? <Navigate to="/todos" /> : <SignIn onLogin={this.handleLogin} />}
                         />
                         <Route
-                            path="/register"
+                            path="/signup"
                             element={isLoggedIn ? <Navigate to="/todos" /> : <SignUp />}
                         />
                         <Route
