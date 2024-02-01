@@ -7,17 +7,43 @@ class SignIn extends Component {
         this.state = {
             username: '',
             password: '',
+            error: null,
         };
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        // Add your authentication logic here
-        this.props.onLogin();
+     handleSubmit = async (e) => {
+            e.preventDefault();
+
+            try {
+                const response = await fetch('https://localhost:7184/api/User/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: this.state.username,
+                        password: this.state.password,
+                        confPassword : "dasf"
+                    }),
+                });
+
+                if (response.ok) {
+                    // Successful login, you can redirect or perform other actions
+                    this.props.onLogin();
+                } else {
+                    // Handle login failure
+                    const errorData = await response.json(); // Assuming the server sends error details in JSON format
+                    this.setState({ error: errorData.message || 'Login failed.' });
+                }
+            } catch (error) {
+                // Handle network or unexpected errors
+                console.error('An error occurred:', error.message);
+                this.setState({ error: 'An error occurred while trying to log in.' });
+            }
     };
 
     render() {
-        const { username, password } = this.state;
+        const { username, password, error } = this.state;
 
         return (
             <div className="container d-flex justify-content-center align-items-center vh-100">
@@ -25,9 +51,10 @@ class SignIn extends Component {
                     <div className="card-body">
                         <form onSubmit={this.handleSubmit}>
                             <h1 className="card-title text-center">Log In</h1>
+                            {error && <div className="alert alert-danger">{error}</div>}
                             <div className="form-group">
                                 <label htmlFor="exampleInputUserName1">UserName</label>
-                                <input type="email" className="form-control" id="exampleInputUserName1" aria-describedby="usernameHelp" placeholder="Enter UserName" value={username} onChange={(e) => this.setState({ username: e.target.value })} />
+                                <input type="text" className="form-control" id="exampleInputUserName1" aria-describedby="usernameHelp" placeholder="Enter UserName" value={username} onChange={(e) => this.setState({ username: e.target.value })} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Password</label>
