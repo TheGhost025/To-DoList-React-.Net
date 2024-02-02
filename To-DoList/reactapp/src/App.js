@@ -10,21 +10,28 @@ export default class App extends Component {
         super(props);
         this.state = {
             isLoggedIn: false,
+            userId: null,
+            username:null
         };
     }
 
-        handleLogin = () => {
-            // Your authentication logic goes here
-            this.setState({ isLoggedIn: true });
-        };
+    handleLogin = (userId,username) => {
+        // Your authentication logic goes here
+        // You can store the user ID and auth token in the state or local storage
+        this.setState({
+            isLoggedIn: true,
+            userId,
+            username
+        });
+    };
 
         handleLogout = () => {
             // Your logout logic goes here
-            this.setState({ isLoggedIn: false });
+            this.setState({ isLoggedIn: false, userId: null });
         };
 
-        render() {
-            const { isLoggedIn } = this.state;
+    render() {
+        const { isLoggedIn, userId, username } = this.state;
 
             return (
                 <Router>
@@ -39,7 +46,7 @@ export default class App extends Component {
                         />
                         <Route
                             path="/todos"
-                            element={isLoggedIn ? <ToDoList onLogout={this.handleLogout} /> : <Navigate to="/login" />}
+                            element={isLoggedIn ? <ToDoList username={username} userId={userId} onLogout={this.handleLogout} /> : <Navigate to="/login" />}
                         />
                         {/* You can use Navigate to handle the default redirection */}
                         <Route index element={<Navigate to="/todos" />} />

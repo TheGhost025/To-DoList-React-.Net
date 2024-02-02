@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using webapi.Entity;
 
@@ -11,9 +12,11 @@ using webapi.Entity;
 namespace webapi.Migrations
 {
     [DbContext(typeof(ToDoContext))]
-    partial class ToDoContextModelSnapshot : ModelSnapshot
+    [Migration("20240202194634_update")]
+    partial class update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,15 +40,10 @@ namespace webapi.Migrations
                     b.Property<bool>("Status")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("user_id")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("user_id");
 
@@ -79,12 +77,8 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Models.ToDo", b =>
                 {
-                    b.HasOne("webapi.Models.User", null)
-                        .WithMany("ToDos")
-                        .HasForeignKey("UserId");
-
                     b.HasOne("webapi.Models.User", "User")
-                        .WithMany()
+                        .WithMany("ToDos")
                         .HasForeignKey("user_id");
 
                     b.Navigation("User");

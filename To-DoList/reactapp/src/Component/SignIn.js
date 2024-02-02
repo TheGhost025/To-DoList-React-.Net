@@ -29,7 +29,11 @@ class SignIn extends Component {
 
                 if (response.ok) {
                     // Successful login, you can redirect or perform other actions
-                    this.props.onLogin();
+            const data = await response.json();
+
+            // Extract userId from the response
+                    const { userId, message } = data;
+                    this.props.onLogin(userId, this.state.username);
                 } else {
                     // Handle login failure
                     const errorData = await response.json(); // Assuming the server sends error details in JSON format

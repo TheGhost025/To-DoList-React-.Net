@@ -8,8 +8,8 @@ namespace webapi.Models
         public string Name { get; set; }
         public bool Status { get; set; }
         [ForeignKey("User")]
-        public int user_id { get; set; }
+        public int? user_id { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User? User { get; set; }
     }
 }

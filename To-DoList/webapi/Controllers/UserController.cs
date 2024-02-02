@@ -66,7 +66,7 @@ namespace webapi.Controllers
                     return BadRequest("Invalid username or password");
                 }
 
-                return Ok("Login successful");
+                return Ok(new { UserId = user.Id, Message = "Login successful" });
             }
             catch (Exception ex)
             {
