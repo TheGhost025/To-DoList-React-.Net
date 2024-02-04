@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Navigate } from 'react-router-dom';
 
 class SignUp extends Component {
     constructor(props) {
@@ -8,6 +9,7 @@ class SignUp extends Component {
             password: '',
             confirmPassword: '',
             error: null,
+            redirectToLogin: false,
         };
     }
 
@@ -38,6 +40,8 @@ class SignUp extends Component {
             if (response.ok) {
                 // Successful registration
                 console.log('User registered successfully');
+                // Redirect to login page
+                this.setState({ redirectToLogin: true });
             } else {
                 // Handle registration failure
                 const data = await response.json();
@@ -50,7 +54,12 @@ class SignUp extends Component {
     };
 
     render() {
-        const { username, password, confirmPassword, error } = this.state;
+        const { username, password, confirmPassword, error, redirectToLogin } = this.state;
+
+        // Redirect to login page after successful signup
+        if (redirectToLogin) {
+            return <Navigate to="/login" />;
+        }
 
         return (
             <div className="container d-flex justify-content-center align-items-center vh-100">

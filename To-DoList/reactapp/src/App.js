@@ -32,7 +32,7 @@ export default class App extends Component {
 
     render() {
         const { isLoggedIn, userId, username } = this.state;
-
+        //Routing between pages
             return (
                 <Router>
                     <Routes>

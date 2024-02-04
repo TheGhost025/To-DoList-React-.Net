@@ -68,13 +68,6 @@ class ToDoList extends Component {
 
             const response = await fetch(`https://localhost:7184/api/ToDo/${task.id}`, {
                 method: 'PUT',
-                //headers: {
-                //    'Content-Type': 'application/json',
-                //},
-                //body: JSON.stringify({
-                //    Name: task.name,
-                //    Status: !task.status,
-                //}),
             });
 
             if (response.ok) {
@@ -110,10 +103,12 @@ class ToDoList extends Component {
     };
 
     handleShow = () => {
+        //show pop up form
         this.setState({ showModal: true });
     };
 
     handleClose = () => {
+        //disappear pop up form
         this.setState({ showModal: false });
     };
 
@@ -161,15 +156,12 @@ class ToDoList extends Component {
                         </tbody>
                     </table>
 
-                    {/* Modal for Add Task */}
                     <Modal show={this.state.showModal} onHide={this.handleClose}>
                         <Modal.Header closeButton>
                             <Modal.Title>Add Task</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            {/* Your form content goes here */}
                             <Form>
-                                {/* Form fields go here */}
                                 <Form.Group controlId="formTaskName">
                                     <Form.Label>Task Name</Form.Label>
                                     <Form.Control
@@ -178,7 +170,6 @@ class ToDoList extends Component {
                                         value={this.state.newTaskName}
                                         onChange={(e) => this.setState({ newTaskName: e.target.value })} />
                                 </Form.Group>
-                                {/* Add more form fields as needed */}
 
                                 <Button variant="primary" onClick={this.handleAddTask}>
                                     Add Task
